@@ -186,13 +186,23 @@ function doGet(e) {
 }
 
 function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CATEI_SHEET)
+
+  if (e.parameter.action === 'resetAll') {
+    var rows = sheet.getDataRange().getValues()
+    var dogs = buildDogList(rows)
+    dogs.forEach(function (d) {
+      sheet.getRange(d.rowNum, C_COL.A_FOST_SCOS + 1).setValue('FALSE')
+    })
+    return jsonOutput({ success: true, count: dogs.length })
+  }
+
   var id = e.parameter.id
   var match = /^dog(\d+)$/.exec(id || '')
   if (!match) {
     return jsonOutput({ success: false, error: 'invalid id' })
   }
   var rowNum = parseInt(match[1], 10)
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CATEI_SHEET)
 
   if (e.parameter.comment !== undefined) {
     var comment = e.parameter.comment.trim()

@@ -7,7 +7,7 @@ import { useTeamsContext } from '../context/TeamsContext'
 import { penMeta } from '../mockData'
 
 export default function TeamListPage() {
-  const { teams, loading, isFallback, canWrite } = useTeamsContext()
+  const { teams, loading, isFallback, canWrite, resetAll } = useTeamsContext()
   const [activePen, setActivePen] = useState('TARC1')
   const [onlyPending, setOnlyPending] = useState(false)
 
@@ -31,7 +31,7 @@ export default function TeamListPage() {
 
   return (
     <>
-      <Header total={total} walked={walkedCount} waiting={waiting} />
+      <Header total={total} walked={walkedCount} waiting={waiting} onReset={resetAll} />
 
       <PenTabs penMeta={penMeta} counts={counts} active={activePen} onChange={setActivePen} />
 

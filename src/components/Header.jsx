@@ -1,7 +1,13 @@
 import './Header.css'
 
-export default function Header({ total, walked, waiting }) {
+export default function Header({ total, walked, waiting, onReset }) {
   const pct = total > 0 ? Math.round((walked / total) * 100) : 0
+
+  const handleReset = () => {
+    if (window.confirm('Sigur vrei să marchezi din nou toți căteii ca nefiind scoși?')) {
+      onReset()
+    }
+  }
 
   return (
     <header className="header">
@@ -12,6 +18,9 @@ export default function Header({ total, walked, waiting }) {
             <div className="header-title">Dogs Without Borders</div>
           </div>
         </div>
+        <button className="header-reset" onClick={handleReset} aria-label="Resetare">
+          ↺ Resetare
+        </button>
       </div>
 
       <div className="progress-card">

@@ -56,6 +56,22 @@ export async function setWalked(id, walked) {
   }
 }
 
+export async function resetAllWalked() {
+  if (!APPS_SCRIPT_URL) return false
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: new URLSearchParams({ action: 'resetAll' }),
+    })
+    if (!res.ok) throw new Error(`Apps Script write failed: ${res.status}`)
+    const data = await res.json()
+    return Boolean(data.success)
+  } catch (e) {
+    console.warn('Apps Script reset failed:', e.message)
+    return false
+  }
+}
+
 // Returns the updated notes array on success, or null on failure/unsupported.
 export async function addComment(id, text) {
   if (!APPS_SCRIPT_URL) return null

@@ -1,8 +1,31 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchTeams, setWalked, addComment as addCommentApi, canWrite } from '../api/sheets'
+import { fetchTeams, setWalked, resetAllWalked, addComment as addCommentApi, canWrite } from '../api/sheets'
 
 const POLL_MS = 20000
 const COMMENTS_KEY = 'dwb-comments' // not date-scoped — comments are permanent, unlike "walked today"
+const CACHE_KEY = 'dwb-teams-cache'
+
+// Stale-while-revalidate: the first load (Apps Script cold start, or the
+// two-tab CSV fetch) can take a few seconds. Showing yesterday's/last-poll's
+// data immediately while a fresh fetch runs in the background makes the app
+// feel instant on repeat visits — it's then just overwritten once the real
+// fetch resolves, same as any other poll tick.
+function loadCachedTeams() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
+function saveCachedTeams(teams) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(teams))
+  } catch {
+    // ignore storage errors (private mode, quota, etc.)
+  }
+}
 
 function todayKey() {
   return `dwb-walked-${new Date().toISOString().slice(0, 10)}`
@@ -49,8 +72,8 @@ function dogOverrideId(team, dog) {
 }
 
 export function useTeams() {
-  const [teams, setTeams] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [teams, setTeams] = useState(() => loadCachedTeams() || [])
+  const [loading, setLoading] = useState(() => loadCachedTeams() === null)
   const [isFallback, setIsFallback] = useState(false)
   const pollRef = useRef(null)
 
@@ -72,6 +95,8 @@ export function useTeams() {
     setTeams(merged)
     setIsFallback(fellBack)
     setLoading(false)
+    // Never cache the built-in demo fallback as if it were real sheet data.
+    if (!fellBack) saveCachedTeams(merged)
   }, [])
 
   useEffect(() => {
@@ -163,5 +188,25 @@ export function useTeams() {
     }
   }, [teams])
 
-  return { teams, loading, isFallback, canWrite, toggleDogWalked, addComment }
+  const resetAll = useCallback(async () => {
+    setTeams((prev) => prev.map((t) => ({ ...t, dogs: t.dogs.map((d) => ({ ...d, walked: false })) })))
+
+    if (!canWrite) {
+      try {
+        localStorage.removeItem(todayKey())
+      } catch {
+        // ignore storage errors
+      }
+      return
+    }
+
+    const ok = await resetAllWalked()
+    if (!ok) {
+      // Can't cheaply reconstruct each dog's prior value after a blanket
+      // optimistic reset, so just re-fetch the real state on failure.
+      load()
+    }
+  }, [load])
+
+  return { teams, loading, isFallback, canWrite, toggleDogWalked, addComment, resetAll }
 }
