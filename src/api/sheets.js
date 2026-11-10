@@ -55,3 +55,20 @@ export async function setWalked(id, walked) {
     return false
   }
 }
+
+// Returns the updated notes array on success, or null on failure/unsupported.
+export async function addComment(id, text) {
+  if (!APPS_SCRIPT_URL) return null
+  try {
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: new URLSearchParams({ id, comment: text }),
+    })
+    if (!res.ok) throw new Error(`Apps Script write failed: ${res.status}`)
+    const data = await res.json()
+    return data.success ? data.notes : null
+  } catch (e) {
+    console.warn('Apps Script comment write failed:', e.message)
+    return null
+  }
+}

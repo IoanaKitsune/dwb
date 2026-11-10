@@ -57,6 +57,12 @@ function idPadocOf(dogs) {
   return parts.join(' / ')
 }
 
+// New comments are appended as their own line, so each line is one entry.
+function notesOf(istoric) {
+  if (!istoric) return []
+  return istoric.split('\n').map(function (n) { return n.trim() }).filter(function (n) { return n.length > 0 })
+}
+
 function buildDogList(rows) {
   var dogs = []
 
@@ -68,6 +74,8 @@ function buildDogList(rows) {
     var tip = dash(cell(row, C_COL.TIP))
     if (!/prietenos|fricos/i.test(tip)) continue
 
+    var istoric = dash(cell(row, C_COL.ISTORIC))
+
     dogs.push({
       name: name,
       rowNum: i + 1,
@@ -76,7 +84,8 @@ function buildDogList(rows) {
       isPrietenos: /prietenos/i.test(tip),
       isFricos: /fricos/i.test(tip),
       walked: cell(row, C_COL.A_FOST_SCOS).toUpperCase() === 'TRUE',
-      istoric: dash(cell(row, C_COL.ISTORIC)),
+      istoric: istoric,
+      notes: notesOf(istoric),
       matched: false,
     })
   }
@@ -129,6 +138,7 @@ function buildTeams(grupuriRows, dogRows) {
           isFricos: false,
           walked: false,
           istoric: '',
+          notes: [],
         }
       })
     }
@@ -177,15 +187,26 @@ function doGet(e) {
 
 function doPost(e) {
   var id = e.parameter.id
-  var walked = e.parameter.walked === 'true'
-
   var match = /^dog(\d+)$/.exec(id || '')
   if (!match) {
     return jsonOutput({ success: false, error: 'invalid id' })
   }
-
   var rowNum = parseInt(match[1], 10)
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(CATEI_SHEET)
+
+  if (e.parameter.comment !== undefined) {
+    var comment = e.parameter.comment.trim()
+    if (!comment) return jsonOutput({ success: false, error: 'empty comment' })
+
+    var istoricCell = sheet.getRange(rowNum, C_COL.ISTORIC + 1)
+    var existing = dash(String(istoricCell.getValue() || '').trim())
+    var updated = existing ? existing + '\n' + comment : comment
+    istoricCell.setValue(updated)
+
+    return jsonOutput({ success: true, istoric: updated, notes: notesOf(updated) })
+  }
+
+  var walked = e.parameter.walked === 'true'
   // C_COL.A_FOST_SCOS is 0-based index 4 -> column E -> 1-based column 5
   sheet.getRange(rowNum, C_COL.A_FOST_SCOS + 1).setValue(walked ? 'TRUE' : 'FALSE')
 

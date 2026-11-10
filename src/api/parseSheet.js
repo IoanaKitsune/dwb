@@ -104,6 +104,12 @@ function idPadocOf(dogs) {
   return [...new Set(dogs.map((d) => d.idPadoc).filter(Boolean))].join(' / ')
 }
 
+// New comments are appended as their own line, so each line is one entry.
+// Older freeform istoric text with no line breaks just shows as one entry.
+function notesOf(istoric) {
+  return istoric ? istoric.split('\n').map((n) => n.trim()).filter(Boolean) : []
+}
+
 // "Catei" tab -> a flat, non-deduplicated list of dogs (names can repeat).
 function buildDogList(rows) {
   const dogs = []
@@ -117,6 +123,8 @@ function buildDogList(rows) {
     // columns — a genuine dog row always has a real Tip value.
     if (!/prietenos|fricos/i.test(tip)) return
 
+    const istoric = dash(cell(row, C_COL.ISTORIC))
+
     dogs.push({
       name,
       rowNum: i + 1,
@@ -125,7 +133,8 @@ function buildDogList(rows) {
       isPrietenos: /prietenos/i.test(tip),
       isFricos: /fricos/i.test(tip),
       walked: cell(row, C_COL.A_FOST_SCOS).toUpperCase() === 'TRUE',
-      istoric: dash(cell(row, C_COL.ISTORIC)),
+      istoric,
+      notes: notesOf(istoric),
       matched: false,
     })
   })
@@ -171,6 +180,7 @@ export function buildTeams(grupuriRows, dogRows) {
           isFricos: false,
           walked: false,
           istoric: '',
+          notes: [],
         }
       })
     }
