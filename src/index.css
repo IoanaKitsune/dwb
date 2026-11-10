@@ -1,0 +1,59 @@
+:root {
+  --primary-600: #fd8e50;
+  --primary-700: #e8722c;
+  --primary-100: #ffe4d1;
+  --secondary-600: #26c3a6;
+  --secondary-700: #1b8a6b;
+  --secondary-100: #d7f5ec;
+  --tertiary-600: #ff376e;
+  --tertiary-700: #d41d53;
+  --tertiary-100: #ffe1ea;
+  --neutral-900: #2c2826;
+  --neutral-700: #6b6360;
+  --neutral-400: #a89f9a;
+  --neutral-300: #d8d2cc;
+  --neutral-100: #f0ede9;
+  --cream: #f7f2ee;
+  --white: #ffffff;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --radius-pill: 999px;
+  --shadow-card: 0 4px 14px rgba(44, 40, 38, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: var(--cream);
+  color: var(--neutral-900);
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app-main {
+  flex: 1;
+  padding: 16px 16px 24px;
+}

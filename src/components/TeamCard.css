@@ -1,0 +1,111 @@
+.team-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  border-left: 4px solid transparent;
+  cursor: pointer;
+}
+
+.team-card-warning {
+  border-left-color: var(--primary-600);
+}
+
+.team-card-calm {
+  border-left-color: var(--secondary-600);
+}
+
+.team-card-badge {
+  flex: 0 0 52px;
+  min-height: 52px;
+  background: var(--primary-100);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 6px 4px;
+  color: var(--primary-700);
+}
+
+.team-card-calm .team-card-badge {
+  background: var(--secondary-100);
+  color: var(--secondary-700);
+}
+
+.team-card-badge-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  opacity: 0.75;
+  margin-bottom: 1px;
+}
+
+.team-card-badge-value {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.team-card-badge-multi .team-card-badge-value {
+  font-size: 13px;
+}
+
+.team-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.team-card-name {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1px;
+  color: var(--neutral-900);
+  margin-bottom: 6px;
+}
+
+.team-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.team-card-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.team-card-tag-warning {
+  background: var(--primary-100);
+  color: var(--primary-700);
+}
+
+.team-card-tag-ok {
+  background: var(--secondary-100);
+  color: var(--secondary-700);
+}
+
+.team-card-chevron {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--neutral-100);
+  color: var(--neutral-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+}

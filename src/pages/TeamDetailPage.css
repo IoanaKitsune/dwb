@@ -1,0 +1,167 @@
+.detail-page {
+  padding: 16px;
+}
+
+.detail-back {
+  background: none;
+  border: none;
+  color: var(--neutral-900);
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 0;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detail-badge {
+  flex: 0 0 56px;
+  min-height: 56px;
+  background: var(--primary-100);
+  color: var(--primary-700);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 6px 4px;
+}
+
+.detail-badge-calm {
+  background: var(--secondary-100);
+  color: var(--secondary-700);
+}
+
+.detail-badge-value {
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.detail-badge-multi .detail-badge-value {
+  font-size: 13px;
+}
+
+.detail-names {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--neutral-900);
+}
+
+.detail-pen {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--neutral-700);
+  margin-top: 2px;
+}
+
+.dog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dog-row {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  border-left: 4px solid var(--secondary-600);
+}
+
+.dog-row-warning {
+  border-left-color: var(--primary-600);
+}
+
+.dog-row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.dog-row-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--neutral-900);
+  margin-bottom: 6px;
+}
+
+.dog-row-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.dog-row-harness {
+  font-size: 12px;
+  color: var(--neutral-700);
+  margin-bottom: 4px;
+}
+
+.dog-row-note {
+  font-size: 12px;
+  color: var(--neutral-700);
+  line-height: 1.4;
+}
+
+.dog-row-check {
+  flex: 0 0 72px;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.dog-row-check:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dog-row-check-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-100);
+  border: 2px solid var(--neutral-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dog-row-check-mark {
+  color: var(--white);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.dog-row-check-done .dog-row-check-box {
+  background: var(--secondary-600);
+  border-color: var(--secondary-600);
+}
+
+.dog-row-check-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: var(--neutral-700);
+  text-align: center;
+}
+
+.dog-row-check-done .dog-row-check-label {
+  color: var(--secondary-700);
+}
