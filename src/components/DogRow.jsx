@@ -70,7 +70,9 @@ export default function DogRow({ dog, onToggleWalked, onAddComment }) {
         disabled={dog.rowNum === null}
       >
         <span className="dog-row-check-box">{dog.walked && <span className="dog-row-check-mark">✓</span>}</span>
-        <span className="dog-row-check-label">{dog.walked ? 'SCOS' : 'ÎN AȘTEPTARE'}</span>
+        <span className="dog-row-check-label">
+          {dog.walked ? (dog.isFricos ? 'S-A STAT' : 'SCOS') : 'ÎN AȘTEPTARE'}
+        </span>
       </button>
     </div>
   )
